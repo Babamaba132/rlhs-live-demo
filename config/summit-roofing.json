@@ -1,0 +1,74 @@
+{
+  "clientId": "summit-roofing",
+  "businessName": "Summit Roofing Co.",
+  "phone": "+1-555-123-4567",
+  "logoUrl": "/assets/logos/summit-roofing.png",
+  "brandColor": "#C8102E",
+  "brandColorSecondary": "#1A1A1A",
+
+  "webhookUrl": "https://thebigidealab.app.n8n.cloud/webhook/e801964c-5fa1-4da0-83ec-6068d693b605",
+
+  "bookingLink": "https://calendly.com/summit-roofing/free-inspection",
+
+  "recaptchaSiteKey": "",
+
+  "emailContact": "contact@summitroofing.com",
+  "physicalAddress": "123 Main St, Austin TX 78701",
+
+  "serviceArea": {
+    "description": "Serving Austin and surrounding metro",
+    "allowedZipPrefixes": ["78", "79"]
+  },
+
+  "trustSignals": {
+    "licenseNumber": "TX-RCC-12345",
+    "licensedInsured": true,
+    "yearsInBusiness": 18,
+    "bbbRating": "A+",
+    "certifications": ["GAF Master Elite", "CertainTeed SELECT ShingleMaster"],
+    "warrantyYears": 25,
+    "googleRating": 4.9,
+    "roofsCompleted": 5000
+  },
+
+  "testimonials": [
+    {"quote": "They did our roof in two days. Amazing team.", "author": "Sarah K.", "city": "Austin"}
+  ],
+
+  "socialProof": {
+    "facebook": "https://facebook.com/summitroofing",
+    "instagram": "https://instagram.com/summitroofing",
+    "heroImageUrl": "/assets/hero/summit.jpg"
+  },
+
+  "serviceOptions": {
+    "emergencyServices": true,
+    "financingAvailable": true,
+    "languagesSpoken": ["English", "Spanish"],
+    "freeInspection": true,
+    "responseTimeCommitment": "We respond within 2 hours"
+  },
+
+  "thankYouPage": {
+    "heading": "Thanks — we received your request!",
+    "subheading": "Book a time below or we'll reach out within 2 hours.",
+    "showCalendly": true,
+    "postBookingRedirect": null
+  },
+
+  "consent": {
+    "additionalLegalText": null
+  },
+
+  "extraQuestions": [],
+
+  "meta": {
+    "pageTitle": "Free Roofing Estimate — Summit Roofing Co.",
+    "metaDescription": "Get an instant roofing estimate from Summit Roofing Co. Free, no obligation.",
+    "faviconUrl": "/assets/favicons/summit.ico",
+    "privacyPolicyUrl": "https://summitroofing.com/privacy",
+    "termsUrl": "https://summitroofing.com/terms"
+  },
+
+  "active": true
+}

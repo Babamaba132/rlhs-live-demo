@@ -1,0 +1,36 @@
+{
+  "clientId": "default",
+  "businessName": "Your Local Roofer",
+  "phone": "",
+  "logoUrl": "",
+  "brandColor": "#1a5276",
+  "brandColorSecondary": "#1a1a1a",
+
+  "webhookUrl": "",
+
+  "bookingLink": "",
+
+  "recaptchaSiteKey": "",
+
+  "physicalAddress": "",
+
+  "thankYouPage": {
+    "heading": "Thanks — we received your request!",
+    "subheading": "A roofing professional will be in touch soon.",
+    "showCalendly": false
+  },
+
+  "consent": {
+    "additionalLegalText": null
+  },
+
+  "extraQuestions": [],
+
+  "meta": {
+    "pageTitle": "Free Roofing Estimate",
+    "metaDescription": "Get a free roofing estimate. No obligation.",
+    "privacyPolicyUrl": "#"
+  },
+
+  "active": true
+}

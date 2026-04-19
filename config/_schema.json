@@ -1,0 +1,168 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Roofing Form Client Config",
+  "description": "Reference schema for per-client configuration files. This file is NOT loaded by the app — it exists for documentation only.",
+  "type": "object",
+  "required": [
+    "clientId",
+    "businessName",
+    "phone",
+    "webhookUrl",
+    "bookingLink",
+    "recaptchaSiteKey",
+    "physicalAddress",
+    "meta"
+  ],
+  "properties": {
+    "clientId": {
+      "type": "string",
+      "description": "Unique slug for this client, matches filename"
+    },
+    "businessName": {
+      "type": "string",
+      "description": "Display name of the roofing company"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Phone number (any format, displayed as-is)"
+    },
+    "logoUrl": {
+      "type": "string",
+      "description": "Path or URL to company logo"
+    },
+    "brandColor": {
+      "type": "string",
+      "description": "Primary hex color for buttons, headers, accents"
+    },
+    "brandColorSecondary": {
+      "type": "string",
+      "description": "Secondary hex color"
+    },
+    "webhookUrl": {
+      "type": "string",
+      "description": "n8n webhook URL for form submissions"
+    },
+    "bookingLink": {
+      "type": "string",
+      "description": "Calendly or scheduling link for thank-you page"
+    },
+    "recaptchaSiteKey": {
+      "type": "string",
+      "description": "reCAPTCHA v3 site key (public). Secret lives in n8n."
+    },
+    "emailContact": {
+      "type": "string"
+    },
+    "physicalAddress": {
+      "type": "string"
+    },
+    "serviceArea": {
+      "type": "object",
+      "properties": {
+        "description": { "type": "string" },
+        "allowedZipPrefixes": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "trustSignals": {
+      "type": "object",
+      "properties": {
+        "licenseNumber": { "type": "string" },
+        "licensedInsured": { "type": "boolean" },
+        "yearsInBusiness": { "type": "integer" },
+        "bbbRating": { "type": "string" },
+        "certifications": { "type": "array", "items": { "type": "string" } },
+        "warrantyYears": { "type": "integer" },
+        "googleRating": { "type": "number" },
+        "roofsCompleted": { "type": "integer" }
+      }
+    },
+    "testimonials": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "quote": { "type": "string" },
+          "author": { "type": "string" },
+          "city": { "type": "string" }
+        }
+      }
+    },
+    "socialProof": {
+      "type": "object",
+      "properties": {
+        "facebook": { "type": "string" },
+        "instagram": { "type": "string" },
+        "heroImageUrl": { "type": "string" }
+      }
+    },
+    "serviceOptions": {
+      "type": "object",
+      "properties": {
+        "emergencyServices": { "type": "boolean" },
+        "financingAvailable": { "type": "boolean" },
+        "languagesSpoken": { "type": "array", "items": { "type": "string" } },
+        "freeInspection": { "type": "boolean" },
+        "responseTimeCommitment": { "type": "string" }
+      }
+    },
+    "thankYouPage": {
+      "type": "object",
+      "properties": {
+        "heading": { "type": "string" },
+        "subheading": { "type": "string" },
+        "showCalendly": { "type": "boolean", "default": true },
+        "postBookingRedirect": { "type": ["string", "null"] }
+      }
+    },
+    "consent": {
+      "type": "object",
+      "properties": {
+        "additionalLegalText": { "type": ["string", "null"] }
+      }
+    },
+    "extraQuestions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["fieldName", "label", "type"],
+        "properties": {
+          "fieldName": { "type": "string" },
+          "label": { "type": "string" },
+          "type": { "type": "string", "enum": ["radio", "select", "text", "textarea", "checkbox"] },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "string" },
+                "label": { "type": "string" }
+              }
+            }
+          },
+          "required": { "type": "boolean", "default": false },
+          "section": { "type": "string", "enum": ["contact", "roof_details", "optional"] },
+          "helpText": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "required": ["privacyPolicyUrl"],
+      "properties": {
+        "pageTitle": { "type": "string" },
+        "metaDescription": { "type": "string" },
+        "faviconUrl": { "type": "string" },
+        "privacyPolicyUrl": { "type": "string" },
+        "termsUrl": { "type": "string" }
+      }
+    },
+    "active": {
+      "type": "boolean",
+      "default": true,
+      "description": "If false, form shows a polite inactive message instead of rendering"
+    }
+  }
+}

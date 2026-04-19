@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Roofing Quote Request</title>
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+</head>
+<body>
+  <div id="loader" class="loader">Loading&hellip;</div>
+
+  <div id="error" class="error-banner" hidden></div>
+
+  <main id="app" class="app" hidden>
+    <header class="brand">
+      <img id="brand-logo" class="brand__logo" alt="" hidden />
+      <div class="brand__text">
+        <h1 id="brand-name" class="brand__name"></h1>
+        <a id="brand-phone" class="brand__phone" href="#"></a>
+      </div>
+    </header>
+
+    <form id="quote-form" class="form" novalidate>
+      <!-- ============ SECTION 1: CONTACT INFORMATION ============ -->
+      <section id="section-contact" class="form__section">
+        <h2 class="form__heading">Your contact information</h2>
+
+        <div class="field">
+          <label for="fullName">Full name <span class="req">*</span></label>
+          <input id="fullName" name="fullName" type="text" autocomplete="name" required />
+          <p class="field__error" data-error-for="fullName"></p>
+        </div>
+
+        <div class="field">
+          <label for="email">Email <span class="req">*</span></label>
+          <input id="email" name="email" type="email" autocomplete="email" required />
+          <p class="field__error" data-error-for="email"></p>
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone <span class="req">*</span></label>
+          <input id="phone" name="phone" type="tel" autocomplete="tel" required />
+          <p class="field__error" data-error-for="phone"></p>
+        </div>
+
+        <div class="field">
+          <label for="zip">ZIP code <span class="req">*</span></label>
+          <input id="zip" name="zip" type="text" inputmode="numeric" maxlength="5" autocomplete="postal-code" required />
+          <p class="field__error" data-error-for="zip"></p>
+        </div>
+
+        <div class="field">
+          <label for="address">Property address <span class="req">*</span></label>
+          <input id="address" name="address" type="text" autocomplete="street-address" required />
+          <p class="field__error" data-error-for="address"></p>
+        </div>
+      </section>
+
+      <!-- ============ SKIP TO INSPECTION ============ -->
+      <div class="skip-section">
+        <button type="button" id="skip-to-inspection" class="skip-btn">
+          I just want an inspection &mdash; skip the details
+        </button>
+        <p class="skip-hint">Already know you need someone out? Skip ahead and we'll handle the rest.</p>
+      </div>
+
+      <!-- ============ SECTION 2: ROOF DETAILS ============ -->
+      <section id="section-roof-details" class="form__section">
+        <h2 class="form__heading">About your roof</h2>
+
+        <div class="field">
+          <label for="roofType">Roof material <span class="req">*</span></label>
+          <select id="roofType" name="roofType" required>
+            <option value="">Select one&hellip;</option>
+            <option value="asphalt">Asphalt shingles (3-tab) &mdash; most common, flat shingles</option>
+            <option value="architectural">Architectural shingles &mdash; thicker, dimensional</option>
+            <option value="metal">Metal roof &mdash; standing seam or corrugated</option>
+            <option value="clay_tile">Clay / Spanish tile &mdash; curved terracotta</option>
+            <option value="concrete_tile">Concrete tile &mdash; flat or curved concrete</option>
+            <option value="slate">Slate &mdash; natural stone tiles</option>
+            <option value="wood_shake">Wood shakes / shingles &mdash; cedar or redwood</option>
+            <option value="flat_membrane">Flat roof (rubber / membrane) &mdash; TPO, EPDM, BUR</option>
+            <option value="composite">Composite / synthetic &mdash; engineered materials</option>
+            <option value="not_sure">I'm not sure</option>
+          </select>
+          <p class="field__error" data-error-for="roofType"></p>
+        </div>
+
+        <fieldset class="field">
+          <legend>How many stories is the building? <span class="req">*</span></legend>
+          <div class="radio-row">
+            <label class="radio"><input type="radio" name="stories" value="1" required /> <span>1 story</span></label>
+            <label class="radio"><input type="radio" name="stories" value="2" /> <span>2 stories</span></label>
+            <label class="radio"><input type="radio" name="stories" value="3plus" /> <span>3+ stories</span></label>
+          </div>
+          <p class="field__error" data-error-for="stories"></p>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend>Roof pitch <span class="req">*</span></legend>
+          <p class="field__hint">Pick the image that looks most like your roof.</p>
+          <div class="pitch-grid">
+            <label class="pitch-card">
+              <input type="radio" name="pitch" value="low" required />
+              <img src="/assets/pitch-guide/low.svg" alt="Low pitch roof" />
+              <span>Low / flat</span>
+            </label>
+            <label class="pitch-card">
+              <input type="radio" name="pitch" value="medium" />
+              <img src="/assets/pitch-guide/medium.svg" alt="Medium pitch roof" />
+              <span>Medium</span>
+            </label>
+            <label class="pitch-card">
+              <input type="radio" name="pitch" value="steep" />
+              <img src="/assets/pitch-guide/steep.svg" alt="Steep pitch roof" />
+              <span>Steep</span>
+            </label>
+          </div>
+          <p class="field__error" data-error-for="pitch"></p>
+        </fieldset>
+
+        <div class="field">
+          <label for="size">Approximate roof size <span class="req">*</span></label>
+          <select id="size" name="size" required>
+            <option value="">Select one&hellip;</option>
+            <option value="under1500">Under 1,500 sq ft</option>
+            <option value="1500to2500">1,500 &ndash; 2,500 sq ft</option>
+            <option value="2500to3500">2,500 &ndash; 3,500 sq ft</option>
+            <option value="over3500">Over 3,500 sq ft</option>
+            <option value="not_sure">I'm not sure</option>
+          </select>
+          <p class="field__error" data-error-for="size"></p>
+        </div>
+
+        <div class="field">
+          <label for="roofAge">Age of current roof <span class="req">*</span></label>
+          <select id="roofAge" name="roofAge" required>
+            <option value="">Select one&hellip;</option>
+            <option value="less_than_10">Less than 10 years</option>
+            <option value="10_to_20">10 &ndash; 20 years</option>
+            <option value="over_20">Over 20 years</option>
+            <option value="not_sure">I'm not sure</option>
+          </select>
+          <p class="field__error" data-error-for="roofAge"></p>
+        </div>
+      </section>
+
+      <!-- ============ SECTION 2B: JOB DETAILS ============ -->
+      <section class="form__section">
+        <h2 class="form__heading">About the job</h2>
+
+        <div class="field">
+          <label for="jobType">What kind of work do you need? <span class="req">*</span></label>
+          <select id="jobType" name="jobType" required>
+            <option value="">Select one&hellip;</option>
+            <option value="replacement">Full replacement</option>
+            <option value="repair">Repair</option>
+            <option value="inspection">Inspection only</option>
+            <option value="not_sure">Not sure yet</option>
+          </select>
+          <p class="field__error" data-error-for="jobType"></p>
+        </div>
+
+        <fieldset class="field">
+          <legend>How urgent is this? <span class="req">*</span></legend>
+          <div class="radio-stack">
+            <label class="radio"><input type="radio" name="urgency" value="emergency" required /> <span><strong>Emergency</strong> &mdash; active leak or storm damage</span></label>
+            <label class="radio"><input type="radio" name="urgency" value="urgent" /> <span><strong>Urgent</strong> &mdash; within the next few weeks</span></label>
+            <label class="radio"><input type="radio" name="urgency" value="planning" /> <span><strong>Planning ahead</strong> &mdash; researching options</span></label>
+          </div>
+          <p class="field__error" data-error-for="urgency"></p>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend>Is there visible damage? <span class="req">*</span></legend>
+          <div class="radio-row">
+            <label class="radio"><input type="radio" name="hasDamage" value="yes" required /> <span>Yes</span></label>
+            <label class="radio"><input type="radio" name="hasDamage" value="no" /> <span>No</span></label>
+            <label class="radio"><input type="radio" name="hasDamage" value="not_sure" /> <span>Not sure</span></label>
+          </div>
+          <p class="field__error" data-error-for="hasDamage"></p>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend>Is this an insurance claim? <span class="req">*</span></legend>
+          <div class="radio-row">
+            <label class="radio"><input type="radio" name="isInsuranceClaim" value="yes" required /> <span>Yes</span></label>
+            <label class="radio"><input type="radio" name="isInsuranceClaim" value="no" /> <span>No</span></label>
+            <label class="radio"><input type="radio" name="isInsuranceClaim" value="not_sure" /> <span>Not sure</span></label>
+          </div>
+          <p class="field__error" data-error-for="isInsuranceClaim"></p>
+        </fieldset>
+      </section>
+
+      <!-- ============ SECTION 3: OPTIONAL ============ -->
+      <section id="section-optional" class="form__section">
+        <h2 class="form__heading">A few optional questions</h2>
+
+        <div class="field">
+          <label for="hearAbout">How did you hear about us?</label>
+          <select id="hearAbout" name="hearAbout">
+            <option value="">Prefer not to say</option>
+            <option value="google">Google search</option>
+            <option value="referral">Friend or family referral</option>
+            <option value="social">Social media</option>
+            <option value="other">Other</option>
+            <option value="prefer_not">Prefer not to say</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="additionalNotes">Anything else we should know?</label>
+          <textarea id="additionalNotes" name="additionalNotes" rows="3" maxlength="500" placeholder="e.g. tree fell on the roof last week"></textarea>
+          <p class="field__hint"><span id="notes-count">0</span> / 500</p>
+        </div>
+      </section>
+
+      <!-- ============ CONSENT + SUBMIT ============ -->
+      <section class="form__section consent-section">
+        <p id="consent-text" class="consent"></p>
+
+        <!-- TrustedForm injects xxTrustedFormCertUrl as a hidden field on this form -->
+
+        <button type="submit" id="submit-btn" class="submit-btn">Get my free quote</button>
+        <p id="submit-error" class="submit-error" hidden></p>
+      </section>
+    </form>
+  </main>
+
+  <!-- TrustedForm by ActiveProspect -->
+  <script type="text/javascript">
+    (function() {
+      var field = "xxTrustedFormCertUrl";
+      var provideReferrer = false;
+      var tf = document.createElement("script");
+      tf.type = "text/javascript";
+      tf.async = true;
+      tf.src = "http://api.trustedform.com/trustedform.js?provide_referrer="
+        + escape(provideReferrer) + "&field=" + escape(field) + "&l="
+        + new Date().getTime() + Math.random();
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(tf, s);
+    })();
+  </script>
+
+  <!-- App scripts — order matters: config-loader first, then renderer, then submit -->
+  <script src="/assets/js/config-loader.js"></script>
+  <script src="/assets/js/form-renderer.js"></script>
+  <script src="/assets/js/form-submit.js"></script>
+
+  <!-- Boot: load config, then render -->
+  <script>
+    (async function () {
+      var config = await window.RoofingForm.resolveConfig();
+      if (!config) {
+        document.getElementById("loader").hidden = true;
+        var banner = document.getElementById("error");
+        banner.textContent = "Unable to load form configuration.";
+        banner.hidden = false;
+        return;
+      }
+      window.RoofingForm.renderForm(config);
+    })();
+  </script>
+</body>
+</html>

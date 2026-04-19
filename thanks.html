@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thank You</title>
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+</head>
+<body>
+  <div id="loader" class="loader">Loading&hellip;</div>
+
+  <main id="thanks-app" class="app" hidden>
+    <header class="brand">
+      <img id="brand-logo" class="brand__logo" alt="" hidden />
+      <div class="brand__text">
+        <h1 id="brand-name" class="brand__name"></h1>
+        <a id="brand-phone" class="brand__phone" href="#"></a>
+      </div>
+    </header>
+
+    <div class="thanks-card">
+      <h2 id="thanks-heading" class="thanks-card__heading"></h2>
+      <p id="thanks-subheading" class="thanks-card__subheading"></p>
+      <p id="phone-cta" class="thanks-card__phone-cta"></p>
+    </div>
+
+    <div id="calendly-container" class="calendly-container"></div>
+  </main>
+
+  <script src="/assets/js/config-loader.js"></script>
+  <script src="/assets/js/thanks.js"></script>
+</body>
+</html>
