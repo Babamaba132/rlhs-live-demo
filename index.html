@@ -5,6 +5,109 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Roofing Quote Request</title>
   <link rel="stylesheet" href="/assets/css/styles.css" />
+  <style>
+    /* ============================================================
+       Consent block styling — FORM_SPEC §6.7
+       Goal: visible, readable, complete — but doesn't dominate
+       the form or feel like a lecture.
+       ============================================================ */
+
+    /* Outer container — subtle group, generous padding, doesn't
+       compete with the submit button. */
+    .consent-block {
+      background: #F9FAFB;
+      border: 1px solid #E5E7EB;
+      border-radius: 8px;
+      padding: 18px 20px;
+      margin-bottom: 1rem;
+    }
+
+    /* Disclosure (§6.1) — small, muted grey body text. */
+    .consent-disclosure {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #6B7280;
+    }
+
+    /* Inline headings inside the disclosure are paragraph leads,
+       not section headers — same body size, just bolded. */
+    .consent-disclosure h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #374151;
+      margin: 0 0 0.6em;
+    }
+
+    .consent-disclosure p {
+      margin: 0 0 0.8em;
+    }
+    .consent-disclosure p:last-of-type {
+      margin-bottom: 0;
+    }
+    .consent-disclosure strong {
+      color: #374151;
+      font-weight: 600;
+    }
+    .consent-disclosure a {
+      color: #1a5fbf;
+      text-decoration: underline;
+    }
+
+    /* Optional jurisdiction add-on (§6.6) — sits between the
+       footnote and the checkboxes, same look as the disclosure. */
+    .consent-jurisdiction-addon {
+      margin: 0.8em 0 0;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #6B7280;
+    }
+
+    /* Checkboxes (§6.2, §6.3) — normal form text, darker color,
+       generous spacing, full label clickable. */
+    .consent-checkbox {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      line-height: 1.55;
+      color: #1F2937;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid #E5E7EB;
+      cursor: pointer;
+    }
+    .consent-checkbox:first-of-type {
+      margin-top: 16px;
+      padding-top: 16px;
+    }
+    .consent-checkbox input[type="checkbox"] {
+      flex: 0 0 auto;
+      width: 22px;
+      height: 22px;
+      margin: 0;
+      cursor: pointer;
+    }
+    .consent-checkbox span {
+      flex: 1 1 auto;
+    }
+    .consent-checkbox strong {
+      font-weight: 600;
+    }
+
+    /* Bigger tap targets on touch devices — §6.7 wants ≥24×24 on mobile. */
+    @media (pointer: coarse) {
+      .consent-checkbox input[type="checkbox"] {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    .submit-hint {
+      font-size: 0.7rem;
+      color: #777;
+      margin-top: 0.5rem;
+    }
+  </style>
 </head>
 <body>
   <div id="loader" class="loader">Loading&hellip;</div>
@@ -56,8 +159,20 @@
         </div>
       </section>
 
-      <!-- ============ SKIP TO INSPECTION ============ -->
+      <!-- ============ SKIP TO INSPECTION ============
+           Per FORM_SPEC §6 + Task 5: the same consent block must appear
+           above the skip-to-inspection button so users on the skip path
+           see the disclosure + (optional) Phone/SMS checkboxes before
+           clicking. Rendered at runtime by consent.js into #consent-block-skip.
+           ================================================================== -->
       <div class="skip-section">
+
+        <div
+          id="consent-block-skip"
+          class="consent-block"
+          data-tf-element-role="consent has-consented"
+        ></div>
+
         <button type="button" id="skip-to-inspection" class="skip-btn">
           I just want an inspection &mdash; skip the details
         </button>
@@ -215,51 +330,93 @@
         </div>
       </section>
 
-      <!-- ============ CONSENT + SUBMIT ============ -->
+      <!-- ============ CONSENT + SUBMIT ============
+           TrustedForm tagged consent: the disclosure + checkboxes live inside
+           the [data-tf-element-role="consent has-consented"] wrapper so the
+           cert records what the user agreed to. The submit button carries
+           data-tf-element-role="submit".
+
+           The inner content of #consent-block is rendered at runtime by
+           assets/js/consent.js per FORM_SPEC §6.
+           ================================================================== -->
       <section class="form__section consent-section">
-        <p id="consent-text" class="consent"></p>
 
-        <!-- TrustedForm injects xxTrustedFormCertUrl as a hidden field on this form -->
+        <div
+          id="consent-block"
+          class="consent-block"
+          data-tf-element-role="consent has-consented"
+        ></div>
 
-        <button type="submit" id="submit-btn" class="submit-btn">Get my free quote</button>
+        <!-- TrustedForm writes the cert URL into this hidden field once it loads. -->
+        <input type="hidden" name="xxTrustedFormCertUrl" id="xxTrustedFormCertUrl" value="" />
+
+        <button
+          type="submit"
+          id="submit-btn"
+          class="submit-btn"
+          data-tf-element-role="submit"
+        >
+          Submit my request
+        </button>
+        <p class="submit-hint">
+          We'll only use your information to follow up about your roofing request.
+        </p>
         <p id="submit-error" class="submit-error" hidden></p>
       </section>
     </form>
   </main>
 
-  <!-- TrustedForm by ActiveProspect -->
+  <!-- =====================================================================
+       TrustedForm by ActiveProspect — loaded with use_tagged_consent=true
+       ===================================================================== -->
   <script type="text/javascript">
-    (function() {
-      var field = "xxTrustedFormCertUrl";
-      var provideReferrer = false;
-      var tf = document.createElement("script");
-      tf.type = "text/javascript";
+    (function () {
+      var tf = document.createElement('script');
+      tf.type = 'text/javascript';
       tf.async = true;
-      tf.src = "http://api.trustedform.com/trustedform.js?provide_referrer="
-        + escape(provideReferrer) + "&field=" + escape(field) + "&l="
-        + new Date().getTime() + Math.random();
-      var s = document.getElementsByTagName("script")[0];
+      tf.src =
+        ('https:' === document.location.protocol ? 'https' : 'http') +
+        '://api.trustedform.com/trustedform.js' +
+        '?field=xxTrustedFormCertUrl' +
+        '&use_tagged_consent=true' +
+        '&l=' + new Date().getTime() + Math.random();
+      var s = document.getElementsByTagName('script')[0];
       s.parentNode.insertBefore(tf, s);
     })();
   </script>
+  <noscript>
+    <img src="https://api.trustedform.com/ns.gif" alt="" />
+  </noscript>
 
-  <!-- App scripts — order matters: config-loader first, then renderer, then submit -->
+  <!-- App scripts — order matters: config-loader, renderer, consent, antispam, submit.
+       antispam.js captures load timestamp at script-execute time, so it must be
+       loaded before form-submit.js (which reads window.RoofingForm.antispam). -->
   <script src="/assets/js/config-loader.js"></script>
   <script src="/assets/js/form-renderer.js"></script>
+  <script src="/assets/js/consent.js"></script>
+  <script src="/assets/js/antispam.js"></script>
   <script src="/assets/js/form-submit.js"></script>
 
-  <!-- Boot: load config, then render -->
+  <!-- Boot: load config, render the form, then render the consent block. -->
   <script>
     (async function () {
       var config = await window.RoofingForm.resolveConfig();
       if (!config) {
-        document.getElementById("loader").hidden = true;
-        var banner = document.getElementById("error");
-        banner.textContent = "Unable to load form configuration.";
+        document.getElementById('loader').hidden = true;
+        var banner = document.getElementById('error');
+        banner.textContent = 'Unable to load form configuration.';
         banner.hidden = false;
         return;
       }
+
       window.RoofingForm.renderForm(config);
+
+      // Per FORM_SPEC §6.4: any missing required token throws here so the
+      // form fails loudly rather than rendering raw {{tokens}} on screen.
+      // Two mount points: one above the skip-to-inspection button, one
+      // above the main submit button. Same wording in both places.
+      window.RoofingForm.renderConsent(config, document.getElementById('consent-block-skip'));
+      window.RoofingForm.renderConsent(config, document.getElementById('consent-block'));
     })();
   </script>
 </body>

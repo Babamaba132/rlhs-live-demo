@@ -10,6 +10,16 @@
   async function handleSubmit(config) {
     clearErrors();
 
+    // §7.4 anti-spam — checked BEFORE field validation. Anything under
+    // 5 seconds is blocked at the form with a generic error.
+    var timing = window.RoofingForm.antispam.checkAndGetDuration();
+    if (!timing.passed) {
+      var antispamErr = document.getElementById("submit-error");
+      antispamErr.textContent = window.RoofingForm.antispam.GENERIC_ERROR;
+      antispamErr.hidden = false;
+      return;
+    }
+
     var form = document.getElementById("quote-form");
     var formData = new FormData(form);
     var data = collectFormData(formData);
@@ -22,7 +32,7 @@
 
     var btn = document.getElementById("submit-btn");
     btn.disabled = true;
-    btn.textContent = "Submitting\u2026";
+    btn.textContent = "Submitting…";
 
     try {
       // Get reCAPTCHA token
@@ -32,6 +42,15 @@
           action: "submit",
         });
       }
+
+      // §9.3 — read the two optional consent checkboxes as booleans.
+      // Scoped to #consent-block: the skip-path block (#consent-block-skip)
+      // contains identically-named checkboxes earlier in document order, so
+      // an unscoped querySelector would return the wrong pair. emailConsent
+      // is intentionally NOT in the payload — n8n sets it implicitly per §6.
+      var phoneConsentEl = document.querySelector('#consent-block input[name="phoneConsent"]');
+      var smsConsentEl = document.querySelector('#consent-block input[name="smsConsent"]');
+      var nowIso = new Date().toISOString();
 
       var payload = {
         clientId: config.clientId,
@@ -52,12 +71,18 @@
         hearAbout: formData.get("hearAbout") || null,
         additionalNotes: formData.get("additionalNotes") || null,
 
+        phoneConsent: phoneConsentEl ? phoneConsentEl.checked : false,
+        smsConsent: smsConsentEl ? smsConsentEl.checked : false,
+        consentTimestamp: nowIso,
+
+        formDuration: timing.formDuration,
+
         trustedFormCertUrl:
           document.querySelector('[name="xxTrustedFormCertUrl"]')?.value || null,
         recaptchaToken: recaptchaToken,
         recaptchaAction: "submit",
 
-        submittedAt: new Date().toISOString(),
+        submittedAt: nowIso,
         source: "web_form",
         skipToInspection: false,
 
@@ -95,6 +120,15 @@
   async function handleSkipToInspection(config) {
     clearErrors();
 
+    // §7.4 anti-spam — same floor as the main form path.
+    var timing = window.RoofingForm.antispam.checkAndGetDuration();
+    if (!timing.passed) {
+      var antispamErr = document.getElementById("submit-error");
+      antispamErr.textContent = window.RoofingForm.antispam.GENERIC_ERROR;
+      antispamErr.hidden = false;
+      return;
+    }
+
     var form = document.getElementById("quote-form");
     var formData = new FormData(form);
     var data = collectFormData(formData);
@@ -108,15 +142,22 @@
 
     var skipBtn = document.getElementById("skip-to-inspection");
     skipBtn.disabled = true;
-    skipBtn.textContent = "Submitting\u2026";
+    skipBtn.textContent = "Submitting…";
 
     try {
       var recaptchaToken = "";
       if (config.recaptchaSiteKey && !config.__localTest && window.grecaptcha) {
         recaptchaToken = await grecaptcha.execute(config.recaptchaSiteKey, {
-          action: "skip_to_inspection",
+          action: "submit_skip",
         });
       }
+
+      // §9.2 — consent fields read from the skip block (#consent-block-skip),
+      // not the main block. Same field names + same payload shape as the
+      // main path; the user's path determines which checkboxes we read.
+      var phoneConsentEl = document.querySelector('#consent-block-skip input[name="phoneConsent"]');
+      var smsConsentEl = document.querySelector('#consent-block-skip input[name="smsConsent"]');
+      var nowIso = new Date().toISOString();
 
       var payload = {
         clientId: config.clientId,
@@ -125,16 +166,25 @@
         phone: formData.get("phone"),
         zip: formData.get("zip"),
         address: formData.get("address"),
+        jobType: "inspection",
+
+        phoneConsent: phoneConsentEl ? phoneConsentEl.checked : false,
+        smsConsent: smsConsentEl ? smsConsentEl.checked : false,
+        consentTimestamp: nowIso,
+
+        formDuration: timing.formDuration,
 
         trustedFormCertUrl:
           document.querySelector('[name="xxTrustedFormCertUrl"]')?.value || null,
         recaptchaToken: recaptchaToken,
-        recaptchaAction: "skip_to_inspection",
+        recaptchaAction: "submit_skip",
 
-        submittedAt: new Date().toISOString(),
+        submittedAt: nowIso,
         source: "skip_to_inspection",
         skipToInspection: true,
-        jobType: "inspection",
+
+        extraFields: getExtraFieldValues(config.extraQuestions),
+        customFields: {},
       };
 
       if (config.__localTest) {
@@ -153,7 +203,7 @@
     } catch (err) {
       console.error("[roofing-form] Skip-to-inspection error:", err);
       skipBtn.disabled = false;
-      skipBtn.textContent = "I just want an inspection \u2014 skip the details";
+      skipBtn.textContent = "I just want an inspection — skip the details";
       var errEl = document.getElementById("submit-error");
       errEl.textContent =
         "Something went wrong. Please try again or call us directly.";
