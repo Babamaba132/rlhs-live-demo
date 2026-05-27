@@ -82,7 +82,7 @@
     if (!clientId) clientId = "default";
 
     try {
-      var res = await fetch("/config/" + clientId + ".json", { cache: "no-store" });
+      var res = await fetch("config/" + clientId + ".json", { cache: "no-store" });
       if (!res.ok) throw new Error("Config not found for " + clientId);
       var config = await res.json();
       config._resolvedClientId = clientId;
@@ -97,7 +97,7 @@
       }
 
       try {
-        var fallbackRes = await fetch("/config/default.json", { cache: "no-store" });
+        var fallbackRes = await fetch("config/default.json", { cache: "no-store" });
         if (!fallbackRes.ok) throw new Error("Default config also not found");
         var fallbackConfig = await fallbackRes.json();
         fallbackConfig._resolvedClientId = "default";

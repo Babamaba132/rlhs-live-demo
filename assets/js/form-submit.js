@@ -104,7 +104,7 @@
       }
 
       // Redirect to thank-you page
-      window.location.href = "/thanks.html";
+      window.location.href = "thanks.html";
     } catch (err) {
       console.error("[roofing-form] Submit error:", err);
       btn.disabled = false;
@@ -199,7 +199,7 @@
         if (!res.ok) throw new Error("Webhook error: " + res.status);
       }
 
-      window.location.href = "/thanks.html?skipped=1";
+      window.location.href = "thanks.html?skipped=1";
     } catch (err) {
       console.error("[roofing-form] Skip-to-inspection error:", err);
       skipBtn.disabled = false;

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Roofing Quote Request</title>
-  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
   <style>
     /* ============================================================
        Consent block styling — FORM_SPEC §6.7
@@ -217,17 +217,17 @@
           <div class="pitch-grid">
             <label class="pitch-card">
               <input type="radio" name="pitch" value="low" required />
-              <img src="/assets/pitch-guide/low.svg" alt="Low pitch roof" />
+              <img src="assets/pitch-guide/low.svg" alt="Low pitch roof" />
               <span>Low / flat</span>
             </label>
             <label class="pitch-card">
               <input type="radio" name="pitch" value="medium" />
-              <img src="/assets/pitch-guide/medium.svg" alt="Medium pitch roof" />
+              <img src="assets/pitch-guide/medium.svg" alt="Medium pitch roof" />
               <span>Medium</span>
             </label>
             <label class="pitch-card">
               <input type="radio" name="pitch" value="steep" />
-              <img src="/assets/pitch-guide/steep.svg" alt="Steep pitch roof" />
+              <img src="assets/pitch-guide/steep.svg" alt="Steep pitch roof" />
               <span>Steep</span>
             </label>
           </div>
@@ -391,11 +391,11 @@
   <!-- App scripts — order matters: config-loader, renderer, consent, antispam, submit.
        antispam.js captures load timestamp at script-execute time, so it must be
        loaded before form-submit.js (which reads window.RoofingForm.antispam). -->
-  <script src="/assets/js/config-loader.js"></script>
-  <script src="/assets/js/form-renderer.js"></script>
-  <script src="/assets/js/consent.js"></script>
-  <script src="/assets/js/antispam.js"></script>
-  <script src="/assets/js/form-submit.js"></script>
+  <script src="assets/js/config-loader.js"></script>
+  <script src="assets/js/form-renderer.js"></script>
+  <script src="assets/js/consent.js"></script>
+  <script src="assets/js/antispam.js"></script>
+  <script src="assets/js/form-submit.js"></script>
 
   <!-- Boot: load config, render the form, then render the consent block. -->
   <script>
