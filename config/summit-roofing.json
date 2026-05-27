@@ -2,7 +2,7 @@
   "clientId": "summit-roofing",
   "businessName": "Summit Roofing Co.",
   "phone": "+1-555-123-4567",
-  "logoUrl": "/assets/logos/summit-roofing.png",
+  "logoUrl": "",
   "brandColor": "#C8102E",
   "brandColorSecondary": "#1A1A1A",
 
@@ -65,7 +65,7 @@
   "meta": {
     "pageTitle": "Free Roofing Estimate — Summit Roofing Co.",
     "metaDescription": "Get an instant roofing estimate from Summit Roofing Co. Free, no obligation.",
-    "faviconUrl": "/assets/favicons/summit.ico",
+    "faviconUrl": "",
     "privacyPolicyUrl": "https://summitroofing.com/privacy",
     "termsUrl": "https://summitroofing.com/terms"
   },

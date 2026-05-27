@@ -78,8 +78,7 @@
       phoneEl.hidden = true;
     }
 
-    // Consent text
-    renderConsentText(config);
+    // Consent text is rendered by consent.js into #consent-block mount points
 
     // Extra questions
     renderExtraQuestions(config.extraQuestions || []);
